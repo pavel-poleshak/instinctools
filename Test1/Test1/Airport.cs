@@ -34,7 +34,7 @@ namespace Test1
             int flightRange = 0;
             do
             {
-                Console.Write("Insert plane data (ex.: Boeing 747,LX-100,250,3400): ");
+                Console.Write("Введите данные самолета (например.: Boeing 747,LX-100,250,3400): ");
                 inputString = Console.ReadLine();
                 if (inputString != String.Empty)
                 {
@@ -68,12 +68,13 @@ namespace Test1
             
             if (HasPlanes())
             {
-                Console.WriteLine("List of planes is null");
+                Console.WriteLine("Аэоропорт не имеет самолетов");
             }
             else
             {
-                Console.WriteLine(String.Format("Airport {0} includes next planes:", this.Name));
+                Console.WriteLine(String.Format("Аэропорт {0} включает следующие самолеты:", this.Name));
                 this.GetListOfPlains().ToConsole(x => (String.Format("{0}\t{1}\t{2}\t{3}", x.Name, x.BortNumber, x.CountOfSeats, x.FlightRange))).ToList();
+                
             }
         }
 
@@ -92,6 +93,34 @@ namespace Test1
                                       select p;
             return list;                          
         }
+
+        public int GetMinFlightRange()
+        {
+            int minFlightrange = this.GetListOfPlains().Min(x => x.FlightRange);
+            return minFlightrange;
+        }
+        public int GetMaxFlightRange()
+        {
+            int maxFlightrange = this.GetListOfPlains().Max(x => x.FlightRange);
+            return maxFlightrange;
+        }
+        public double GetAvgFlightRange()
+        {
+            double avgFlightrange = this.GetListOfPlains().Average(x => x.FlightRange);
+            return avgFlightrange;
+        }
+
+
+        public IEnumerable<Plane> GetListOfPlainsByLetter()
+        {
+            Console.WriteLine("Введите символ или набор символов для поиска:");
+            string template = Console.ReadLine().ToUpper();
+            IEnumerable<Plane> list = from p in this.ListOfPlane
+                                      where (p.BortNumber.ToUpper().Contains(template))
+                                      select p;
+            return list;
+        }
+
         
 
 
