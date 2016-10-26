@@ -56,28 +56,36 @@ namespace Test1
             
         }
 
+
+        public bool HasPlanes()
+        {
+            if (this.GetListOfPlains().ToArray().Length == 0) { return true; }
+            else return false;
+        }
+
         public void PrintListOfPlanes()
         {
             
-            if (this.GetListOfPlains().ToArray().Length == 0)
+            if (HasPlanes())
             {
                 Console.WriteLine("List of planes is null");
             }
             else
             {
+                Console.WriteLine(String.Format("Airport {0} includes next planes:", this.Name));
                 this.GetListOfPlains().ToConsole(x => (String.Format("{0}\t{1}\t{2}\t{3}", x.Name, x.BortNumber, x.CountOfSeats, x.FlightRange))).ToList();
             }
         }
-        //public void GetListOfPlains()
-        //{
-        //    Console.WriteLine("Airport:" + " " + this.Name);
-        //    foreach (var x in this.ListOfPlane)
-        //    {
-        //        Console.Write("\t ");
-        //        Console.WriteLine(x.Name + " " + x.BortNumber + " " + x.CountOfSeats + " " + x.FlightRange);
 
-        //    }
-        //}
+        public IEnumerable<Plane> SortByBortNumber()
+        {
+            IEnumerable<Plane> sortedList= this.ListOfPlane.OrderBy(x => x.BortNumber);
+            return sortedList;
+
+        }
+
+
+      
 
     }
 }
