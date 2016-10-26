@@ -84,6 +84,16 @@ namespace Test1
 
         }
 
+        public IEnumerable<Plane> GetListOfPlainsByMaxSeats()
+        {
+            int maxSeat = this.GetListOfPlains().Max(x => x.CountOfSeats);
+            IEnumerable<Plane> list = from p in this.ListOfPlane
+                                      where (p.CountOfSeats == maxSeat)
+                                      select p;
+            return list;                          
+        }
+        
+
 
       
 
