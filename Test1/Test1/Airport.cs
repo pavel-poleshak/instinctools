@@ -8,17 +8,17 @@ namespace Test1
 {
     public class Airport
     {
-        private string _name;
-        private List<Plane> _listOfPlane = new List<Plane>();
+        private string _name;        
+
         public List<Plane> ListOfPlane
-        {
-            get { return _listOfPlane; }
-            set { _listOfPlane = value; }
-        }
+        {            get; set ;        }
+        
         public Airport(string name)
         {
             _name = name;
+            ListOfPlane = new List<Plane>();
         }
+       
         public string Name
         {
             get { return _name; }
@@ -34,9 +34,9 @@ namespace Test1
             int flightRange = 0;
             do
             {
-                Console.Write("type your string: ");
+                Console.Write("Insert plane data (ex.: Boeing 747,LX-100,250,3400): ");
                 inputString = Console.ReadLine();
-                if (inputString != "")
+                if (inputString != String.Empty)
                 {
                     substring = inputString.Split(',');
                     name = substring[0];
@@ -45,19 +45,39 @@ namespace Test1
                     flightRange = int.Parse(substring[3]);
                     this.ListOfPlane.Add(new Plane(name, bortNumber, countOfSeats, flightRange));
                 }
+                
             }
-            while (inputString != "");
+            while (inputString != String.Empty);
         }
 
-        public void GetListOfPlains()
+        public IEnumerable<Plane> GetListOfPlains()
         {
-            Console.WriteLine("Airport" + this.Name);
-            foreach (var x in this.ListOfPlane)
-            {
-                Console.WriteLine(x.Name + " "+x.BortNumber+" "+x.CountOfSeats+ " " + x.FlightRange);
+            return this.ListOfPlane;
+            
+        }
 
+        public void PrintListOfPlanes()
+        {
+            
+            if (this.GetListOfPlains().ToArray().Length == 0)
+            {
+                Console.WriteLine("List of planes is null");
+            }
+            else
+            {
+                this.GetListOfPlains().ToConsole(x => (String.Format("{0}\t{1}\t{2}\t{3}", x.Name, x.BortNumber, x.CountOfSeats, x.FlightRange))).ToList();
             }
         }
+        //public void GetListOfPlains()
+        //{
+        //    Console.WriteLine("Airport:" + " " + this.Name);
+        //    foreach (var x in this.ListOfPlane)
+        //    {
+        //        Console.Write("\t ");
+        //        Console.WriteLine(x.Name + " " + x.BortNumber + " " + x.CountOfSeats + " " + x.FlightRange);
+
+        //    }
+        //}
 
     }
 }

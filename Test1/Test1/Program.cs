@@ -10,11 +10,12 @@ namespace Test1
     {
         static void Main(string[] args)
         {
-            Airport airport = new Airport("Borov");
+            Airport airport = new Airport("Borov");            
             airport.AddPlains();
             
             Console.WriteLine("===================================");
-            airport.GetListOfPlains();
+            airport.PrintListOfPlanes();
+          
             Console.ReadLine();
 
         }
