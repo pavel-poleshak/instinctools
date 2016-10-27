@@ -10,8 +10,8 @@ namespace Test1
     {
         static void Main(string[] args)
         {
-            Airport airport = new Airport("Шереметьево");            
-            airport.AddPlains();            
+            Airport airport = new Airport("Шереметьево", new List<IPlane>());            
+            airport.GetDataFromConsole();            
             Console.WriteLine("Ввод окончен");
             airport.PrintListOfPlanes();
             Console.WriteLine("******************************");

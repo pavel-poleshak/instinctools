@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Test1
 {
-  public class Plane
+  public class Plane:IPlane
     {
       private readonly string _name;
       private readonly string _bortNumber;
@@ -29,5 +29,11 @@ namespace Test1
           _flightRange = flightRange;
       }
 
+
+
+      public virtual void LetsGo()
+      {
+          throw new NotImplementedException();
+      }
     }
 }

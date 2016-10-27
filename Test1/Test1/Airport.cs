@@ -10,13 +10,13 @@ namespace Test1
     {
         private string _name;        
 
-        public List<Plane> ListOfPlane
+        public ICollection<IPlane> ListOfPlane
         {            get; set ;        }
         
-        public Airport(string name)
+        public Airport(string name, ICollection<IPlane> listOfPlane)
         {
             _name = name;
-            ListOfPlane = new List<Plane>();
+            ListOfPlane = listOfPlane;            
         }
        
         public string Name
@@ -24,33 +24,105 @@ namespace Test1
             get { return _name; }
         }
 
-        public void AddPlains()
+
+        public void GetDataFromConsole()
         {
-            string inputString = null;
-            string[] substring = null;
-            string name = null;
-            string bortNumber = null;
-            int countOfSeats = 0;
-            int flightRange = 0;
+            string typeOfPlane = null;
+            string planeSpec = null;
             do
             {
-                Console.Write("Введите данные самолета (например.: Boeing 747,LX-100,250,3400): ");
-                inputString = Console.ReadLine();
-                if (inputString != String.Empty)
+
+
+                Console.Write("Тип самолета: (T/P): ");
+                typeOfPlane = Console.ReadLine().Trim().ToUpper();
+                if (typeOfPlane != String.Empty)
                 {
-                    substring = inputString.Split(',');
-                    name = substring[0];
-                    bortNumber = substring[1];
-                    countOfSeats = int.Parse(substring[2]);
-                    flightRange = int.Parse(substring[3]);
-                    this.ListOfPlane.Add(new Plane(name, bortNumber, countOfSeats, flightRange));
+
+
+                    if (!((typeOfPlane.Equals("T")) || (typeOfPlane.Equals("P"))))
+                    {
+                        Console.WriteLine("Параметр введен неверно. Повторите ввод.");
+                        GetDataFromConsole();
+                    }
+
+
+                    string[] substring = null;
+                    string name = null;
+                    string bortNumber = null;
+                    int countOfSeats = 0;
+                    int flightRange = 0;
+                    do
+                    {
+                        Console.Write("Введите данные самолета (например.: Boeing 747,LX-100,250,3400): ");
+                        planeSpec = Console.ReadLine();
+                        if (planeSpec != String.Empty)
+                        {
+                            substring = planeSpec.Split(',');
+                            name = substring[0];
+                            bortNumber = substring[1];
+                            countOfSeats = int.Parse(substring[2]);
+                            flightRange = int.Parse(substring[3]);
+                            AddPlane(name, bortNumber, countOfSeats, flightRange, typeOfPlane);
+
+                        }
+
+                    }
+
+                    while (planeSpec != String.Empty);
                 }
-                
             }
-            while (inputString != String.Empty);
+            while (typeOfPlane != String.Empty);       
+            
+            
+        }
+        protected IPlane GetObjectByType(string name, string bortNumber, int countOfSeats, int flightRange, string type)
+        {
+            switch (type)
+            {
+                case "T": return new TransportPlane(name, bortNumber, countOfSeats, flightRange);
+                case "P": return new PassengerPlane(name, bortNumber, countOfSeats, flightRange);
+                default: throw new Exception("неизвестный тип");
+            }
         }
 
-        public IEnumerable<Plane> GetListOfPlains()
+        protected void AddPlane(string _name, string bortNumber, int countOfSeats, int flightRange, string _type)
+        {
+            string name = _name;
+            string type = _type;
+            ListOfPlane.Add(GetObjectByType(name, bortNumber, countOfSeats, flightRange, type));
+        }
+
+
+
+
+
+        //public void AddPlains()
+        //{
+        //    string inputString = null;
+        //    string[] substring = null;
+        //    string name = null;
+        //    string bortNumber = null;
+        //    int countOfSeats = 0;
+        //    int flightRange = 0;
+        //    do
+        //    {
+        //        Console.Write("Введите данные самолета (например.: Boeing 747,LX-100,250,3400): ");
+        //        inputString = Console.ReadLine();
+        //        if (inputString != String.Empty)
+        //        {
+        //            substring = inputString.Split(',');
+        //            name = substring[0];
+        //            bortNumber = substring[1];
+        //            countOfSeats = int.Parse(substring[2]);
+        //            flightRange = int.Parse(substring[3]);
+        //            this.ListOfPlane.Add(new Plane(name, bortNumber, countOfSeats, flightRange));
+        //        }
+                
+        //    }
+        //    while (inputString != String.Empty);
+        //}
+
+        public IEnumerable<IPlane> GetListOfPlains()
         {
             return this.ListOfPlane;
             
@@ -78,20 +150,22 @@ namespace Test1
             }
         }
 
-        public IEnumerable<Plane> SortByBortNumber()
+        public IEnumerable<IPlane> SortByBortNumber()
         {
-            IEnumerable<Plane> sortedList= this.ListOfPlane.OrderBy(x => x.BortNumber);
+            IEnumerable<IPlane> sortedList= this.ListOfPlane.OrderBy(x => x.BortNumber);
             return sortedList;
 
         }
 
-        public IEnumerable<Plane> GetListOfPlainsByMaxSeats()
+        public IEnumerable<IPlane> GetListOfPlainsByMaxSeats()
         {
-            int maxSeat = this.GetListOfPlains().Max(x => x.CountOfSeats);
-            IEnumerable<Plane> list = from p in this.ListOfPlane
-                                      where (p.CountOfSeats == maxSeat)
-                                      select p;
-            return list;                          
+
+                int maxSeat = this.GetListOfPlains().Max(x => x.CountOfSeats);
+                IEnumerable<IPlane> list = from p in this.ListOfPlane
+                                           where (p.CountOfSeats == maxSeat)
+                                           select p;
+                return list;
+            
         }
 
         public int GetMinFlightRange()
@@ -111,11 +185,11 @@ namespace Test1
         }
 
 
-        public IEnumerable<Plane> GetListOfPlainsByLetter()
+        public IEnumerable<IPlane> GetListOfPlainsByLetter()
         {
             Console.WriteLine("Введите символ или набор символов для поиска:");
             string template = Console.ReadLine().ToUpper();
-            IEnumerable<Plane> list = from p in this.ListOfPlane
+            IEnumerable<IPlane> list = from p in this.ListOfPlane
                                       where (p.BortNumber.ToUpper().Contains(template))
                                       select p;
             return list;
