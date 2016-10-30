@@ -10,20 +10,31 @@ namespace Test1
     {
         static void Main(string[] args)
         {
-            Airport airport = new Airport("Шереметьево", new List<IPlane>());            
-            airport.GetDataFromConsole();            
-            Console.WriteLine("Ввод окончен");
-            airport.PrintListOfPlanes();
-            Console.WriteLine("******************************");
-            Console.WriteLine("\nВывод самолетов в алфавитном порядке по бортовому номеру: ");
-            airport.SortByBortNumber().ToConsole(x=>(String.Format("{0}\t{1}\t{2}\t{3}", x.Name, x.BortNumber, x.CountOfSeats, x.FlightRange))).ToList();
-            Console.WriteLine("\nВывод самолетов с максимальным количеством мест: ");
-            airport.GetListOfPlainsByMaxSeats().ToConsole(x => (String.Format("{0}\t{1}\t{2}\t{3}", x.Name, x.BortNumber, x.CountOfSeats, x.FlightRange))).ToList();
-            Console.WriteLine("\nМинимальная дальность полета: {0}\n Максимальная дальность полета: {1}\n Средняя дальность полета: {2}", airport.GetMinFlightRange(), airport.GetMaxFlightRange(), airport.GetAvgFlightRange());
+            Airport airport = new Airport("Шереметьево", new List<IPlane>());           
+            airport.GetDataFromConsole();
+           
+            try
+            {
 
 
-            Console.WriteLine("\nВывод самолетов по букве в бортовом номере: ");
-            airport.GetListOfPlainsByLetter().ToConsole(x => (String.Format("{0}\t{1}\t{2}\t{3}", x.Name, x.BortNumber, x.CountOfSeats, x.FlightRange))).ToList();
+                airport.GetListOfPlanes().ToConsole(x => (String.Format("\n {0,10}\t{1,10}\t{2,10}\t{3,10}\n{4,10}\t{5,10}\t{6,10}\t{7,10}", "Название", "Бортовой номер", "Кол-во мест", "Дальность полета", x.Name, x.BortNumber, x.CountOfSeats, x.FlightRange))).ToList(); 
+                
+                airport.PrintPlanesAndGroupByTypes();
+                Console.WriteLine("\nВывод самолетов в алфавитном порядке по бортовому номеру: ");
+                airport.SortByBortNumber().ToConsole(x => (String.Format("\n {0,10}\t{1,10}\t{2,10}\t{3,10}\n{4,10}\t{5,10}\t{6,10}\t{7,10}", "Название", "Бортовой номер", "Кол-во мест", "Дальность полета", x.Name, x.BortNumber, x.CountOfSeats, x.FlightRange))).ToList();
+                Console.WriteLine("\nВывод самолетов с максимальным количеством мест: ");
+                airport.GetListOfPlainsByMaxSeats().ToConsole(x => (String.Format("\n {0,10}\t{1,10}\t{2,10}\t{3,10}\n{4,10}\t{5,10}\t{6,10}\t{7,10}", "Название", "Бортовой номер", "Кол-во мест", "Дальность полета", x.Name, x.BortNumber, x.CountOfSeats, x.FlightRange))).ToList();
+                Console.WriteLine("\nМинимальная дальность полета: {0}\n Максимальная дальность полета: {1}\n Средняя дальность полета: {2}", airport.GetMinFlightRange(), airport.GetMaxFlightRange(), airport.GetAvgFlightRange());
+
+
+                Console.WriteLine("\nВывод самолетов по букве в бортовом номере: ");
+                airport.GetListOfPlainsByLetter().ToConsole(x => (String.Format("\n {0,10}\t{1,10}\t{2,10}\t{3,10}\n{4,10}\t{5,10}\t{6,10}\t{7,10}", "Название", "Бортовой номер", "Кол-во мест", "Дальность полета", x.Name, x.BortNumber, x.CountOfSeats, x.FlightRange))).ToList();
+                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             Console.ReadLine();
 
         }

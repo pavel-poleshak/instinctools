@@ -3,5 +3,4 @@ D:\GitHub\instinctools\Test1\Test1\bin\Debug\Test1.exe
 D:\GitHub\instinctools\Test1\Test1\bin\Debug\Test1.pdb
 D:\GitHub\instinctools\Test1\Test1\obj\Debug\Test1.exe
 D:\GitHub\instinctools\Test1\Test1\obj\Debug\Test1.pdb
-D:\GitHub\instinctools\Test1\Test1\bin\Debug\Test1.exe.CodeAnalysisLog.xml
-D:\GitHub\instinctools\Test1\Test1\bin\Debug\Test1.exe.lastcodeanalysissucceeded
+D:\GitHub\instinctools\Test1\Test1\obj\Debug\Test1.csprojResolveAssemblyReference.cache

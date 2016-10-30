@@ -9,10 +9,8 @@ namespace Test1
     class PassengerPlane:Plane
     {
         public PassengerPlane(string name, string bortNumber, int countOfSeats, int flightRange)
-            : base(name, bortNumber,countOfSeats, flightRange)
-        {
-            ;
-        }
+            : base(name, bortNumber, countOfSeats, flightRange)
+        { }
 
         public override void LetsGo()
         {

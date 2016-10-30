@@ -12,7 +12,7 @@ namespace Test1
       string BortNumber { get;  }
       int CountOfSeats { get;  }
       int FlightRange { get; }
-        void LetsGo();
+      void LetsGo();
         
     }
 }
