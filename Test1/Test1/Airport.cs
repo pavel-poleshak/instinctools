@@ -111,21 +111,14 @@ namespace Test1
             return ListOfPlane; 
         }
 
-        public IEnumerable<IPlane> GetListOfPlanesByTransportType()
+        public IEnumerable<IPlane> DoSomething<T>() where T : IPlane
         {
             var list = from p in ListOfPlane
-                       where (p.GetType() == typeof(TransportPlane))
+                       where (p.GetType() == typeof(T))
                        select p;
             return list;
         }
 
-        public IEnumerable<IPlane> GetListOfPlanesByPassengerType()
-        {
-            var list = from p in ListOfPlane
-                       where (p.GetType() == typeof(PassengerPlane))
-                       select p;
-            return list;
-        }
 
         public IEnumerable<IPlane> SortByBortNumber()
         {
@@ -169,6 +162,7 @@ namespace Test1
         {
             Console.WriteLine("Введите символ или набор символов для поиска:");
             string template = Console.ReadLine().ToUpper();
+            Console.WriteLine("\n {0,10}\t{1,10}\t{2,10}\t{3,10}", "Название", "Бортовой номер", "Кол-во мест", "Дальность полета");
             IEnumerable<IPlane> list = from p in this.ListOfPlane
                                       where (p.BortNumber.ToUpper().Contains(template))
                                       select p;
@@ -178,9 +172,10 @@ namespace Test1
 
         public void PrintPlanesAndGroupByTypes()
         {
-            Console.WriteLine("Список пассажирских самолетов:");
-
-            GetListOfPlanesByPassengerType().ToConsole(x => (String.Format("\n {0,10}\t{1,10}\t{2,10}\t{3,10}\n{4,10}\t{5,10}\t{6,10}\t{7,10}", "Название", "Бортовой номер", "Кол-во мест", "Дальность полета",x.Name, x.BortNumber, x.CountOfSeats, x.FlightRange))).ToList();
+            Console.WriteLine("Пассажирские самолеты\n {0,10}\t{1,10}\t{2,10}\t{3,10}", "Название", "Бортовой номер", "Кол-во мест", "Дальность полета");
+            DoSomething<PassengerPlane>().ToConsole(x => (String.Format("\n{0,10}\t{1,10}\t{2,10}\t{3,10}",x.Name, x.BortNumber, x.CountOfSeats, x.FlightRange))).ToList();
+            Console.WriteLine("Транспортные самолеты\n {0,10}\t{1,10}\t{2,10}\t{3,10}", "Название", "Бортовой номер", "Кол-во мест", "Дальность полета");
+            DoSomething<TransportPlane>().ToConsole(x => (String.Format("\n {0,10}\t{1,10}\t{2,10}\t{3,10}", x.Name, x.BortNumber, x.CountOfSeats, x.FlightRange))).ToList();
         }
 
         
